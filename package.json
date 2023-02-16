@@ -1,7 +1,7 @@
 {
   "name": "w6ch4",
   "version": "1.0.0",
-  "description": "cli application",
+  "description": "things",
   "main": "index.js",
   "type": "module",
   "scripts": {

@@ -20,7 +20,5 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  rules: {
-    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-  },
+  rules: { "new-cap": ["error", { capIsNewExceptions: ["Router"] }] },
 };
