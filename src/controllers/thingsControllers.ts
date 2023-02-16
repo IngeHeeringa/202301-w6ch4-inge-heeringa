@@ -17,9 +17,9 @@ export const getThingById = (req: Request, res: Response) => {
 export const deleteThingById = (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const thingById = things.find((thing) => thing.id === +id)!;
+  const thingById = things.findIndex((thing) => thing.id === +id)!;
 
-  things.splice(things.indexOf(thingById), 1);
+  things.splice(thingById, 1);
 
   res.status(200).json({ things });
 };
@@ -34,7 +34,30 @@ export const createThing = (
 ) => {
   const newThing = req.body;
 
-  things.push(newThing);
+  things.push({ ...newThing, id: Date.now() });
+
+  res.status(201).json({ things });
+};
+
+export const modifyThing = (
+  req: Request<
+    Record<string, unknown>,
+    Record<string, unknown>,
+    ThingStructure
+  >,
+  res: Response
+) => {
+  const { id, name } = req.body;
+
+  const thingToModify = things.find((thing) => thing.id === id);
+  const indexThingToModify = things.indexOf(thingToModify!);
+
+  if (!thingToModify) {
+    res.status(404).json({ error: "Thing not found" });
+    return;
+  }
+
+  things[indexThingToModify].name = name ? name : thingToModify.name;
 
   res.status(201).json({ things });
 };
