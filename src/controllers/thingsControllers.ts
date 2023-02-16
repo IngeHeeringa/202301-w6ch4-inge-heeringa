@@ -1,5 +1,6 @@
 import things from "../data/things.js";
 import { type Request, type Response } from "express";
+import { type ThingStructure } from "../types.js";
 
 export const getThings = (req: Request, res: Response) => {
   res.status(200).json({ things });
@@ -23,6 +24,17 @@ export const deleteThingById = (req: Request, res: Response) => {
   res.status(200).json({ things });
 };
 
-export const createTing = (req: Request, res: Response) => {
-  res.status(200).json({});
+export const createThing = (
+  req: Request<
+    Record<string, unknown>,
+    Record<string, unknown>,
+    ThingStructure
+  >,
+  res: Response
+) => {
+  const newThing = req.body;
+
+  things.push(newThing);
+
+  res.status(201).json({ things });
 };

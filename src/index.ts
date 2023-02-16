@@ -11,6 +11,7 @@ const debug = createDebug("things:root");
 
 app.use(morgan("dev"));
 
+app.use(express.json());
 app.use("/", thingsRouter);
 
 app.listen(port);
