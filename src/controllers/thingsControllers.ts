@@ -1,6 +1,7 @@
 import things from "../data/things.js";
 import { type Request, type Response } from "express";
 import { type ThingStructure } from "../types.js";
+import { isAuthorized } from "../index.js";
 
 export const getThings = (req: Request, res: Response) => {
   res.status(200).json({ things });
@@ -15,6 +16,11 @@ export const getThingById = (req: Request, res: Response) => {
 };
 
 export const deleteThingById = (req: Request, res: Response) => {
+  if (!isAuthorized) {
+    res.status(401).json({ error: "Unauthorized request" });
+    return;
+  }
+
   const { id } = req.params;
 
   const thingById = things.findIndex((thing) => thing.id === +id)!;
@@ -32,6 +38,11 @@ export const createThing = (
   >,
   res: Response
 ) => {
+  if (!isAuthorized) {
+    res.status(401).json({ error: "Unauthorized request" });
+    return;
+  }
+
   const newThing = req.body;
 
   things.push({ ...newThing, id: Date.now() });
@@ -47,6 +58,11 @@ export const modifyThing = (
   >,
   res: Response
 ) => {
+  if (!isAuthorized) {
+    res.status(401).json({ error: "Unauthorized request" });
+    return;
+  }
+
   const { id, name } = req.body;
 
   const thingToModify = things.find((thing) => thing.id === id);
